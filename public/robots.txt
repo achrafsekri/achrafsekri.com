@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.achraf.dev
+
+# Sitemaps
+Sitemap: https://www.achraf.dev/sitemap.xml
