@@ -10,7 +10,7 @@ import AppWindow from "@/components/wireframes/AppWindow";
 import GitHubWireframe from "@/components/wireframes/GitHub";
 import NpmWireframe from "@/components/wireframes/Npm";
 
-import blueHouse from "public/assets/images/blueHouse.png";
+import blueHouse from "public/assets/images/bluehouse.png";
 import explainthis from "public/assets/images/explainthis.png";
 import hoopooh from "public/assets/images/hoopooh.png";
 import rtu from "public/assets/images/rtu.png";

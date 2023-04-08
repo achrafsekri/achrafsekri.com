@@ -5,6 +5,9 @@ import remarkPlugins from "remark-plugins";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  publicRuntimeConfig: {
+    staticFolder: "/public",
+  },
   redirects: async () => [
     {
       source: "/work",
