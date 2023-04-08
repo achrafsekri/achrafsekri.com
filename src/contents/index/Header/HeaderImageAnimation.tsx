@@ -1,9 +1,9 @@
-import clsx from 'clsx';
-import { m } from 'framer-motion';
+import clsx from "clsx";
+import { m } from "framer-motion";
 
 const animation = {
   hide: { pathLength: 0.3 },
-  show: (i) => {
+  show: (i: number) => {
     const delay = 0.1 + i * 0.1;
     return {
       pathLength: 1,
@@ -32,8 +32,8 @@ function HeaderImageAnimation({
       strokeLinecap="round"
       strokeLinejoin="round"
       className={clsx(
-        'stroke-accent-500 h-[526px] w-[457px] opacity-0',
-        'dark:opacity-40'
+        "stroke-accent-500 h-[526px] w-[457px] opacity-0",
+        "dark:opacity-40"
       )}
       onAnimationComplete={onAnimationComplete}
     >

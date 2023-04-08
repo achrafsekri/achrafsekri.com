@@ -127,12 +127,12 @@ function ProjectsContents() {
                   browserTabs={[
                     {
                       icon: <WebsiteIcon className="w-4 h-4" />,
-                      title: sections.find(
-                        (section) => section.id === currentState
-                      ).displayUrl,
-                      url: sections.find(
-                        (section) => section.id === currentState
-                      ).href,
+                      title:
+                        sections.find((section) => section.id === currentState)
+                          ?.displayUrl || "about:blank",
+                      url:
+                        sections.find((section) => section.id === currentState)
+                          ?.href || "#",
                       isActive: true,
                     },
                   ]}
@@ -140,7 +140,7 @@ function ProjectsContents() {
                   <a
                     href={
                       sections.find((section) => section.id === currentState)
-                        .href
+                        ?.href || "#"
                     }
                     className="relative w-full h-full bg-orange-500"
                   >
@@ -162,12 +162,12 @@ function ProjectsContents() {
                     <Image
                       src={
                         sections.find((section) => section.id === currentState)
-                          .image
+                          ?.image || "about:blank"
                       }
                       className="w-full "
                       alt={
                         sections.find((section) => section.id === currentState)
-                          .title
+                          ?.title || "about:blank"
                       }
                     />
                   </a>

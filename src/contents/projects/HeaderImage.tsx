@@ -1,9 +1,9 @@
-import clsx from 'clsx';
-import { m } from 'framer-motion';
+import clsx from "clsx";
+import { m } from "framer-motion";
 
 const animation = {
   hide: { pathLength: 0.2 },
-  show: (i) => {
+  show: (i: number) => {
     const delay = 0.2 + i * 0.1;
     return {
       pathLength: 1,
@@ -26,8 +26,8 @@ function Projects() {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={clsx(
-        'stroke-accent-500 -mt-20 h-full opacity-60',
-        'dark:opacity-40'
+        "stroke-accent-500 -mt-20 h-full opacity-60",
+        "dark:opacity-40"
       )}
     >
       <m.rect

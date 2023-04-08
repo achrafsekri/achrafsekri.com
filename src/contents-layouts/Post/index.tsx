@@ -1,17 +1,16 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren } from "react";
 
-import WithReactions from '@/components/layouts/WithReactions';
-import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import Head from '@/components/meta/Head';
-import SkipNavigation from '@/components/navigations/SkipNavigation';
-import PageHeader from '@/components/PageHeader';
+import WithTableOfContents from "@/components/layouts/WithTableOfContents";
+import Head from "@/components/meta/Head";
+import SkipNavigation from "@/components/navigations/SkipNavigation";
+import PageHeader from "@/components/PageHeader";
 
-import { getPostOgImageUrl, getPostStructuredData } from '@/helpers/post';
+import { getPostOgImageUrl, getPostStructuredData } from "@/helpers/post";
 
-import PostFooter from '@/contents-layouts/Post/PostFooter';
-import PostMeta from '@/contents-layouts/Post/PostMeta';
+import PostFooter from "@/contents-layouts/Post/PostFooter";
+import PostMeta from "@/contents-layouts/Post/PostMeta";
 
-import type { TPostFrontMatter, TTableOfContents } from '@/types';
+import type { TPostFrontMatter, TTableOfContents } from "@/types";
 
 interface PostProps {
   frontMatter: TPostFrontMatter;
@@ -37,7 +36,7 @@ function Post({
     title,
     dateModified: date,
     datePublished: date,
-    images: [postOgImages['1/1'], postOgImages['4/3'], postOgImages['16/9']],
+    images: [postOgImages["1/1"], postOgImages["4/3"], postOgImages["16/9"]],
   });
 
   return (
@@ -55,7 +54,6 @@ function Post({
         {children}
         <PostFooter tags={tags} category={category} />
       </WithTableOfContents>
-      <WithReactions contentTitle={title} contentType="POST" />
     </>
   );
 }

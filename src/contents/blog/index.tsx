@@ -1,12 +1,12 @@
-import clsx from 'clsx';
+import clsx from "clsx";
 
-import useContentMeta from '@/hooks/useContentMeta';
+import useContentMeta from "@/hooks/useContentMeta";
 
-import PostPreview from '@/contents/blog/PostPreview';
+import PostPreview from "@/contents/blog/PostPreview";
 
-import type { TPostFrontMatter } from '@/types';
+import type { TPostFrontMatter } from "@/types";
 
-const PINNED_POST = 'tailwindcss-best-practices';
+const PINNED_POST = "tailwindcss-best-practices";
 
 export type BlogContentsProps = {
   posts: Array<{
@@ -24,8 +24,12 @@ type TPostPreview = TPostFrontMatter & {
 function BlogContents({ posts }: BlogContentsProps) {
   const { data } = useContentMeta();
 
-  let pinnedPost: TPostPreview;
+  if (!data) return null;
+
+  let pinnedPost: TPostPreview ;
   const postsPreview: Array<TPostPreview> = [];
+
+  
 
   posts.forEach(({ slug, frontMatter }) => {
     const { shares, views } = data[slug]
@@ -47,23 +51,23 @@ function BlogContents({ posts }: BlogContentsProps) {
   });
 
   return (
-    <div className={clsx('content-wrapper')}>
+    <div className={clsx("content-wrapper")}>
       <div
         className={clsx(
-          'flex flex-col gap-8',
-          'md:flex-row md:gap-8 lg:gap-24'
+          "flex flex-col gap-8",
+          "md:flex-row md:gap-8 lg:gap-24"
         )}
       >
-        <div className={clsx('md:w-64')}>{/* TODO: Filter Posts */}</div>
-        <div className={clsx('flex-1')}>
-          {pinnedPost && (
+        <div className={clsx("md:w-64")}>{/* TODO: Filter Posts */}</div>
+        <div className={clsx("flex-1")}>
+          {/* {pinnedPost && (
             <div
               className={clsx(
-                'mb-8 flex items-start gap-4',
-                'md:mb-12 md:gap-6'
+                "mb-8 flex items-start gap-4",
+                "md:mb-12 md:gap-6"
               )}
             >
-              <div className={clsx('flex-1')}>
+              <div className={clsx("flex-1")}>
                 <PostPreview
                   pinned
                   slug={pinnedPost.slug}
@@ -78,7 +82,7 @@ function BlogContents({ posts }: BlogContentsProps) {
                 />
               </div>
             </div>
-          )}
+          )} */}
 
           {postsPreview.map(
             ({
@@ -95,18 +99,18 @@ function BlogContents({ posts }: BlogContentsProps) {
               <div
                 key={slug}
                 className={clsx(
-                  'mb-8 flex items-start gap-4',
-                  'md:mb-4 md:gap-6'
+                  "mb-8 flex items-start gap-4",
+                  "md:mb-4 md:gap-6"
                 )}
               >
                 <div
                   className={clsx(
-                    'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
-                    'md:mt-16 md:w-20 lg:block',
-                    'dark:border-divider-dark'
+                    "border-divider-light mt-14 hidden w-8 -translate-y-1 border-b",
+                    "md:mt-16 md:w-20 lg:block",
+                    "dark:border-divider-dark"
                   )}
                 />
-                <div className={clsx('flex-1')}>
+                <div className={clsx("flex-1")}>
                   <PostPreview
                     slug={slug}
                     category={category}
