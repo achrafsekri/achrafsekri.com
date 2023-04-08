@@ -6,9 +6,9 @@
   </h1>
 </div>
 
-A monorepo for my personal website and projects, built with nextjs and Turborepo.
+A monorepo for my personal website and projects, built with nextjs.
 
-## 📘 [achraf.dev](https://www.achrafsekri.com)
+## 📘 [achrafsekri.com](https://www.achrafsekri.com)
 
 A personal website with a blog, project showcase, and work information.
 
