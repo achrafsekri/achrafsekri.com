@@ -10,12 +10,12 @@ import AppWindow from "@/components/wireframes/AppWindow";
 import GitHubWireframe from "@/components/wireframes/GitHub";
 import NpmWireframe from "@/components/wireframes/Npm";
 
-import blueHouse from "../../../public/assets/images/blueHouse.png";
-import explainthis from "../../../public/assets/images/explainthis.png";
-import hoopooh from "../../../public/assets/images/hoopooh.png";
-import rtu from "../../../public/assets/images/rtu.png";
-import under18 from "../../../public/assets/images/under18.png";
-import xaam from "../../../public/assets/images/xaam.png";
+import blueHouse from "public/assets/images/blueHouse.png";
+import explainthis from "public/assets/images/explainthis.png";
+import hoopooh from "public/assets/images/hoopooh.png";
+import rtu from "public/assets/images/rtu.png";
+import under18 from "public/assets/images/under18.png";
+import xaam from "public/assets/images/xaam.png";
 
 const sections = [
   {
