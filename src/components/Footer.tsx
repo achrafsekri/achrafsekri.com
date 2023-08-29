@@ -113,7 +113,7 @@ function FooterDescription() {
         About Me
       </div>
       <p className={clsx('mb-4 font-normal leading-relaxed')}>
-        I&apos;m Achraf, a <strong>FullStack developer</strong> who is
+        I&apos;m Achraf, a <strong>FullStack Engineer</strong> who is
         passionate about building web apps and a UX enthusiast.
       </p>
       <ul className={clsx('-ml-2 flex gap-1')}>

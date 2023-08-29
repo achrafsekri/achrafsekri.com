@@ -36,7 +36,7 @@ function ButtonResume() {
     <a
       target="_blank"
       rel="noreferrer nofollow"
-      href="https://www.canva.com/design/DAFSDQO5aIg/RhI_taTR7polBnnWIF7Pbw/edit?utm_content=DAFSDQO5aIg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+      href="https://resume.io/r/TNAY5aw8H"
       className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
     >
       <DocumentIcon className={clsx('h-5 w-5')} />
