@@ -16,6 +16,7 @@ import hoopooh from "public/assets/images/hoopooh.png";
 import rtu from "public/assets/images/rtu.png";
 import under18 from "public/assets/images/under18.png";
 import xaam from "public/assets/images/xaam.png";
+import portfolio from "public/assets/images/portfolio.png";
 
 const sections = [
   {
@@ -52,36 +53,46 @@ const sections = [
     image: blueHouse,
   },
   {
-    title: "RTU",
-    displayUrl: "www.github.com/achrafsekri/RTU",
-    description: "RTU is the first university radio in paris .",
-    href: null,
+    title:"This website",
+    displayUrl: "https://www.achrafsekri.com",
+    description: "This website is my personal website.",
+    href: "https://www.achrafsekri.com",
     icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri/RTU",
-    id: "rtu",
-    image: rtu,
-  },
-  {
-    title: "under-18",
-    displayUrl: "www.github.com/achrafsekri/under-18",
-    description: "Under18 is a clothing collective e-commerce website.",
-    href: null,
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri/under-18",
-    id: "under18",
-    image: under18,
-  },
-  {
-    title: "Explain-this",
-    displayUrl: "www.github.com/achrafsekri/Explain-this",
-    description:
-      "Explain-this is a a website that uses artificial intelligence to generate short, concise explanations on any topic.",
-    href: "https://explain-this.vercel.app",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri/Explain-this",
-    id: "explainthis",
-    image: explainthis,
-  },
+    github: "www.github.com/achrafsekri/achrafsekri.com",
+    id: "achrafsekri.com",
+    image: portfolio,
+  }
+  // {
+  //   title: "RTU",
+  //   displayUrl: "www.github.com/achrafsekri/RTU",
+  //   description: "RTU is the first university radio in paris .",
+  //   href: null,
+  //   icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
+  //   github: "https://github.com/achrafsekri/RTU",
+  //   id: "rtu",
+  //   image: rtu,
+  // },
+  // {
+  //   title: "under-18",
+  //   displayUrl: "www.github.com/achrafsekri/under-18",
+  //   description: "Under18 is a clothing collective e-commerce website.",
+  //   href: null,
+  //   icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
+  //   github: "https://github.com/achrafsekri/under-18",
+  //   id: "under18",
+  //   image: under18,
+  // },
+  // {
+  //   title: "Explain-this",
+  //   displayUrl: "www.github.com/achrafsekri/Explain-this",
+  //   description:
+  //     "Explain-this is a a website that uses artificial intelligence to generate short, concise explanations on any topic.",
+  //   href: "https://explain-this.vercel.app",
+  //   icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
+  //   github: "https://github.com/achrafsekri/Explain-this",
+  //   id: "explainthis",
+  //   image: explainthis,
+  // },
 ];
 
 function ProjectsContents() {
@@ -91,7 +102,7 @@ function ProjectsContents() {
     <>
       <SectionTitle
         title="Hoopooh admin dashboard."
-        caption="Hoopooh"
+        caption="Latest project"
         description="hoopooh is an online platform that facilitates communication between kindergarten teachers and parents."
         button={{
           title: "learn more",
@@ -99,80 +110,36 @@ function ProjectsContents() {
         }}
       />
       <SectionContent>
+      
         <div className={clsx("flex", "lg:gap-12")}>
-          <div className={clsx("hidden flex-1 flex-col gap-3 pt-8", "lg:flex")}>
-            <div
-              className={clsx(
-                " scrollbar-thin scrollbar-thumb-orange-500  scrollbar-track-gray-100 flex max-h-96 flex-col gap-3 overflow-auto px-3"
-              )}
-            >
-              {sections.map((section, index) => (
-                <SectionButton
-                  key={index}
-                  title={section.title}
-                  icon={<GitHubIcon />}
-                  github={section.github}
-                  description={section.description}
-                  active={currentState === section.id}
-                  onClick={() => setCurrentState(section.id)}
-                />
-              ))}
-            </div>
-          </div>
           <div className={clsx("w-full", "lg:w-auto")}>
-            <div className={clsx("sticky -mt-[41px]")}>
-              <div className={clsx("w-full", "lg:h-[400px] lg:w-[600px]")}>
+            <div className={clsx("w-full py-12 grid grid-cols-1 lg:grid-cols-2 gap-12", "")}>
+              {sections.map((section, index) => (
                 <AppWindow
+                  key={index}
                   type="browser"
+                  projectId={section.id}
                   browserTabs={[
                     {
                       icon: <WebsiteIcon className="w-4 h-4" />,
-                      title:
-                        sections.find((section) => section.id === currentState)
-                          ?.displayUrl || "about:blank",
-                      url:
-                        sections.find((section) => section.id === currentState)
-                          ?.href || "#",
+                      title: section.displayUrl || "about:blank",
+                      url: section.href || "#",
                       isActive: true,
                     },
                   ]}
                 >
                   <a
-                    href={
-                      sections.find((section) => section.id === currentState)
-                        ?.href || "#"
-                    }
-                    className="relative w-full h-full bg-orange-500"
+                    href={`/projects/${section.id}`}
+                    className="relative w-full h-full bg-orange-500 select-none"
                   >
-                    {/* {currentState === 'github' && (
-                    <GitHubWireframe
-                      author="achrafsekri"
-                      license="MIT"
-                      repository="tailwindcss-accent"
-                      description="Adds accent colors for more dynamic and flexible color utilization."
-                    />
-                  )}
-                  {currentState === 'npm' && (
-                    <NpmWireframe
-                      packageName="tailwindcss-accent"
-                      description="Adds accent colors for more dynamic and flexible color utilization."
-                      isWithTypeScript
-                    />
-                  )} */}
                     <Image
-                      src={
-                        sections.find((section) => section.id === currentState)
-                          ?.image || "about:blank"
-                      }
-                      className="w-full "
-                      alt={
-                        sections.find((section) => section.id === currentState)
-                          ?.title || "about:blank"
-                      }
+                      src={section.image}
+                      className="w-full transition duration-300 select-none hover:scale-105 "
+                      alt={section.title || "about:blank"}
                     />
                   </a>
                 </AppWindow>
-              </div>
+              ))}
             </div>
           </div>
         </div>
