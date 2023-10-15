@@ -17,6 +17,7 @@ import rtu from "public/assets/images/rtu.png";
 import under18 from "public/assets/images/under18.png";
 import xaam from "public/assets/images/xaam.png";
 import portfolio from "public/assets/images/portfolio.png";
+import hoopoohAdmin from "public/assets/images/hoopooh-admin.png";
 
 const sections = [
   {
@@ -29,6 +30,17 @@ const sections = [
     github: "https://github.com/achrafsekri",
     image: hoopooh,
     id: "hoopooh",
+  },
+  {
+    title: "Hoopooh admin dashboard",
+    displayUrl: "www.app.hoopooh.com",
+    description:
+      "hoopooh is an online platform that facilitates communication between kindergarten teachers and parents.",
+    href: "https://www.hoopooh.com/en/",
+    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
+    github: "https://github.com/achrafsekri",
+    image: hoopoohAdmin,
+    id: "hoopooh-admin",
   },
   {
     title: "Xaam",
@@ -53,7 +65,7 @@ const sections = [
     image: blueHouse,
   },
   {
-    title:"This website",
+    title: "This website",
     displayUrl: "https://www.achrafsekri.com",
     description: "This website is my personal website.",
     href: "https://www.achrafsekri.com",
@@ -61,7 +73,7 @@ const sections = [
     github: "www.github.com/achrafsekri/achrafsekri.com",
     id: "achrafsekri.com",
     image: portfolio,
-  }
+  },
   // {
   //   title: "RTU",
   //   displayUrl: "www.github.com/achrafsekri/RTU",
@@ -110,10 +122,14 @@ function ProjectsContents() {
         }}
       />
       <SectionContent>
-      
         <div className={clsx("flex", "lg:gap-12")}>
           <div className={clsx("w-full", "lg:w-auto")}>
-            <div className={clsx("w-full py-12 grid grid-cols-1 lg:grid-cols-2 gap-12", "")}>
+            <div
+              className={clsx(
+                "w-full py-12 grid grid-cols-1 lg:grid-cols-2 gap-12",
+                ""
+              )}
+            >
               {sections.map((section, index) => (
                 <AppWindow
                   key={index}
