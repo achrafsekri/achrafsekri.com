@@ -1,8 +1,8 @@
-import clsx from 'clsx';
-import { m, useReducedMotion } from 'framer-motion';
-import Link from 'next/link';
+import clsx from "clsx";
+import { m, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 
-import { DocumentIcon } from '@/components/Icons';
+import { DocumentIcon } from "@/components/Icons";
 
 const animation = {
   hide: {
@@ -24,7 +24,7 @@ function ButtonContactMe() {
   return (
     <Link
       href="/work/contact"
-      className={clsx('button button--solid min-w-[128px]', 'md:button--big')}
+      className={clsx("button button--solid min-w-[128px]", "md:button--big")}
     >
       Get in Touch
     </Link>
@@ -36,10 +36,10 @@ function ButtonResume() {
     <a
       target="_blank"
       rel="noreferrer nofollow"
-      href="https://resume.io/r/TNAY5aw8H"
-      className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
+      href="https://drive.google.com/file/d/1Kr9QcxaMLik6EhXGOmOyC1l6Jsqp7koW/view?usp=sharing"
+      className={clsx("button button--ghost px-2", "md:button--big md:px-2")}
     >
-      <DocumentIcon className={clsx('h-5 w-5')} />
+      <DocumentIcon className={clsx("h-5 w-5")} />
       RESUME
     </a>
   );
@@ -49,22 +49,22 @@ function AvailableForHire() {
   return (
     <div
       className={clsx(
-        'button button--ghost text-accent-500 pointer-events-none gap-2.5 px-2.5',
-        'md:button--big md:px-2.5',
-        'dark:text-accent-400'
+        "button button--ghost text-accent-500 pointer-events-none gap-2.5 px-2.5",
+        "md:button--big md:px-2.5",
+        "dark:text-accent-400"
       )}
     >
-      <span className={clsx('relative flex h-2 w-2')}>
+      <span className={clsx("relative flex h-2 w-2")}>
         <span
           className={clsx(
-            'bg-accent-600 absolute -left-1 -top-1 inline-flex h-4 w-4 animate-ping rounded-full opacity-75',
-            'dark:bg-accent-300'
+            "bg-accent-600 absolute -left-1 -top-1 inline-flex h-4 w-4 animate-ping rounded-full opacity-75",
+            "dark:bg-accent-300"
           )}
         />
         <span
           className={clsx(
-            'bg-accent-500 relative inline-flex h-2 w-2 rounded-full',
-            'dark:bg-accent-400'
+            "bg-accent-500 relative inline-flex h-2 w-2 rounded-full",
+            "dark:bg-accent-400"
           )}
         />
       </span>
@@ -104,9 +104,9 @@ function HeaderCta({
   }
 
   return (
-    <m.div className={clsx('flex gap-2')} initial="hide" animate="show">
+    <m.div className={clsx("flex gap-2")} initial="hide" animate="show">
       <m.div
-        className={clsx('relative z-20')}
+        className={clsx("relative z-20")}
         variants={animation}
         transition={{ delay: 0.4 }}
       >
@@ -116,7 +116,7 @@ function HeaderCta({
         <m.div
           variants={animation}
           transition={{ delay: 2.8 }}
-          className={clsx('relative z-10')}
+          className={clsx("relative z-10")}
         >
           <m.div
             variants={isFreeVariants}
@@ -125,9 +125,9 @@ function HeaderCta({
             <AvailableForHire />
           </m.div>
           <m.div
-            className={clsx('absolute left-0 top-0')}
-            initial={{ x: -48, opacity: 0, pointerEvents: 'none' }}
-            animate={{ x: 0, opacity: 1, pointerEvents: 'auto' }}
+            className={clsx("absolute left-0 top-0")}
+            initial={{ x: -48, opacity: 0, pointerEvents: "none" }}
+            animate={{ x: 0, opacity: 1, pointerEvents: "auto" }}
             transition={{ delay: isFreeAnimationDuration + 1.6, duration: 0.4 }}
           >
             <ButtonResume />
