@@ -1,11 +1,11 @@
-import dayjs from '@/utils/dayjs';
-import { getBaseUrl, getParams } from '@/helpers/url';
+import dayjs from "@/utils/dayjs";
+import { getBaseUrl, getParams } from "@/helpers/url";
 
-import type { TPostFrontMatter, TPostOgImage } from '@/types';
+import type { TPostFrontMatter, TPostOgImage } from "@/types";
 
 export const formatDate = (date: string) => {
   if (dayjs(date).isValid()) {
-    return dayjs(date, 'YYYY-MM-DD').format('MMMM D, YYYY');
+    return dayjs(date, "YYYY-MM-DD").format("MMMM D, YYYY");
   }
 
   return date;
@@ -13,7 +13,7 @@ export const formatDate = (date: string) => {
 
 export const formatDateRelative = (date: string) => {
   if (dayjs(date).isValid()) {
-    const days = dayjs().diff(date, 'days');
+    const days = dayjs().diff(date, "days");
 
     if (days > 6) {
       return formatDate(date);
@@ -37,27 +37,27 @@ export const formatDateRelative = (date: string) => {
 
 export const formatDateISO = (date: string) => {
   if (dayjs(date).isValid()) {
-    return dayjs(date, 'YYYY-MM-DD').format();
+    return dayjs(date, "YYYY-MM-DD").format();
   }
 
   return date;
 };
 
-export const formatLang = (lang: TPostFrontMatter['lang']) => {
+export const formatLang = (lang: TPostFrontMatter["lang"]) => {
   switch (lang) {
-    case 'id':
-      return 'Bahasa Indonesia';
-    case 'en':
-      return 'English';
+    case "id":
+      return "Bahasa Indonesia";
+    case "en":
+      return "English";
     default:
-      return '';
+      return "";
   }
 };
 
 export const formatNumber = (number: number): string => number.toLocaleString();
 
 export const getPostOgImageUrl = (data: TPostOgImage) => {
-  const getUrl = (aspectRatio?: TPostOgImage['aspectRatio']) => {
+  const getUrl = (aspectRatio?: TPostOgImage["aspectRatio"]) => {
     const params = aspectRatio
       ? getParams({ ...data, aspectRatio })
       : getParams(data);
@@ -65,11 +65,21 @@ export const getPostOgImageUrl = (data: TPostOgImage) => {
     return encodeURI(`${getBaseUrl()}/api/og-post?${params}`);
   };
 
+  // return {
+  //   default: getUrl(),
+  //   '16/9': getUrl('16/9'),
+  //   '4/3': getUrl('4/3'),
+  //   '1/1': getUrl('1/1'),
+  // };
   return {
-    default: getUrl(),
-    '16/9': getUrl('16/9'),
-    '4/3': getUrl('4/3'),
-    '1/1': getUrl('1/1'),
+    default:
+      "https://bs-uploads.toptal.io/blackfish-uploads/components/blog_post_page/content/cover_image_file/cover_image/1282565/retina_1708x683_cover-react-context-api-4929b3703a1a7082d99b53eb1bbfc31f.png",
+    "16/9":
+      "https://bs-uploads.toptal.io/blackfish-uploads/components/blog_post_page/content/cover_image_file/cover_image/1282565/retina_1708x683_cover-react-context-api-4929b3703a1a7082d99b53eb1bbfc31f.png",
+    "4/3":
+      "https://bs-uploads.toptal.io/blackfish-uploads/components/blog_post_page/content/cover_image_file/cover_image/1282565/retina_1708x683_cover-react-context-api-4929b3703a1a7082d99b53eb1bbfc31f.png",
+    "1/1":
+      "https://bs-uploads.toptal.io/blackfish-uploads/components/blog_post_page/content/cover_image_file/cover_image/1282565/retina_1708x683_cover-react-context-api-4929b3703a1a7082d99b53eb1bbfc31f.png",
   };
 };
 
@@ -85,18 +95,18 @@ export const getPostStructuredData = ({
   dateModified: string;
 }) =>
   JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
     headline: title,
     image: images,
     datePublished: formatDateISO(datePublished),
     dateModified: formatDateISO(dateModified),
     author: [
       {
-        '@type': 'Person',
-        name: 'achrafsekri',
-        jobTitle: 'Software Engineer',
-        url: 'https://www.achrafsekri.com/about',
+        "@type": "Person",
+        name: "achrafsekri",
+        jobTitle: "Software Engineer",
+        url: "https://www.achrafsekri.com/about",
       },
     ],
   });

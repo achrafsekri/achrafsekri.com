@@ -18,6 +18,7 @@ import under18 from "public/assets/images/under18.png";
 import xaam from "public/assets/images/xaam.png";
 import portfolio from "public/assets/images/portfolio.png";
 import hoopoohAdmin from "public/assets/images/hoopooh-admin.png";
+import soccersat from "public/assets/images/soccersat.png";
 
 const sections = [
   {
@@ -74,42 +75,19 @@ const sections = [
     id: "achrafsekri.com",
     image: portfolio,
   },
-  // {
-  //   title: "RTU",
-  //   displayUrl: "www.github.com/achrafsekri/RTU",
-  //   description: "RTU is the first university radio in paris .",
-  //   href: null,
-  //   icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-  //   github: "https://github.com/achrafsekri/RTU",
-  //   id: "rtu",
-  //   image: rtu,
-  // },
-  // {
-  //   title: "under-18",
-  //   displayUrl: "www.github.com/achrafsekri/under-18",
-  //   description: "Under18 is a clothing collective e-commerce website.",
-  //   href: null,
-  //   icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-  //   github: "https://github.com/achrafsekri/under-18",
-  //   id: "under18",
-  //   image: under18,
-  // },
-  // {
-  //   title: "Explain-this",
-  //   displayUrl: "www.github.com/achrafsekri/Explain-this",
-  //   description:
-  //     "Explain-this is a a website that uses artificial intelligence to generate short, concise explanations on any topic.",
-  //   href: "https://explain-this.vercel.app",
-  //   icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-  //   github: "https://github.com/achrafsekri/Explain-this",
-  //   id: "explainthis",
-  //   image: explainthis,
-  // },
+  {
+    title: "Soccersat",
+    displayUrl: "www.soccersat.com",
+    description:
+      "Soccersat is dedicated to offering the most up-to-date and comprehensive listings of live football matches broadcasted on television worldwide.",
+    href: "https://www.soccersat.com",
+    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
+    id: "soccersat",
+    image: soccersat,
+  },
 ];
 
 function ProjectsContents() {
-  const [currentState, setCurrentState] = useState("hoopooh");
-
   return (
     <>
       <SectionTitle
