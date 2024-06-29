@@ -1,89 +1,92 @@
-import clsx from "clsx";
-import Image from "next/image";
-import { useState } from "react";
-
-import { GitHubIcon, NpmIcon, WebsiteIcon } from "@/components/Icons";
-import { SectionButton } from "@/components/sections/SectionButton";
-import SectionContent from "@/components/sections/SectionContent";
-import SectionTitle from "@/components/sections/SectionTitle";
-import AppWindow from "@/components/wireframes/AppWindow";
-import GitHubWireframe from "@/components/wireframes/GitHub";
-import NpmWireframe from "@/components/wireframes/Npm";
-
-import blueHouse from "public/assets/images/bluehouse.png";
-import explainthis from "public/assets/images/explainthis.png";
-import hoopooh from "public/assets/images/hoopooh.png";
-import rtu from "public/assets/images/rtu.png";
-import under18 from "public/assets/images/under18.png";
-import xaam from "public/assets/images/xaam.png";
-import portfolio from "public/assets/images/portfolio.png";
-import hoopoohAdmin from "public/assets/images/hoopooh-admin.png";
-import soccersat from "public/assets/images/soccersat.png";
+import clsx from 'clsx';
+import Image from 'next/image';
+import { WebsiteIcon } from '@/components/Icons';
+import SectionContent from '@/components/sections/SectionContent';
+import SectionTitle from '@/components/sections/SectionTitle';
+import AppWindow from '@/components/wireframes/AppWindow';
+import blueHouse from 'public/assets/images/bluehouse.png';
+import hoopooh from 'public/assets/images/hoopooh.png';
+import xaam from 'public/assets/images/xaam.png';
+import portfolio from 'public/assets/images/portfolio.png';
+import hoopoohAdmin from 'public/assets/images/hoopooh-admin.png';
+import soccersat from 'public/assets/images/soccersat.png';
+import SeeAdvertising from 'public/assets/images/SeeAdvertising.png';
 
 const sections = [
   {
-    title: "Hoopooh",
-    displayUrl: "www.hoopooh.com",
+    title: 'Hoopooh',
+    displayUrl: 'www.hoopooh.com',
     description:
-      "hoopooh is an online platform that facilitates communication between kindergarten teachers and parents.",
-    href: "https://www.hoopooh.com/en/",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri",
+      'hoopooh is an online platform that facilitates communication between kindergarten teachers and parents.',
+    href: 'https://www.hoopooh.com/en/',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
     image: hoopooh,
-    id: "hoopooh",
+    id: 'hoopooh',
   },
   {
-    title: "Hoopooh admin dashboard",
-    displayUrl: "www.app.hoopooh.com",
+    title: 'Soccersat',
+    displayUrl: 'www.soccersat.com',
     description:
-      "hoopooh is an online platform that facilitates communication between kindergarten teachers and parents.",
-    href: "https://www.hoopooh.com/en/",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri",
-    image: hoopoohAdmin,
-    id: "hoopooh-admin",
+      'Soccersat is dedicated to offering the most up-to-date and comprehensive listings of live football matches broadcasted on television worldwide.',
+    href: 'https://www.soccersat.com',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    id: 'soccersat',
+    image: soccersat,
   },
   {
-    title: "Xaam",
-    displayUrl: "www.xaam.app",
+    title: 'SeeAdvertising',
+    displayUrl: 'www.seeadvertisingtn.com',
     description:
-      "Xaam is a platform that allows teachers and parents to generate exercises and assigments with the help of ai algorithms.",
-    href: "https://www.xaam.app",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri",
-    id: "xaam",
+      'SeeAdvertising is the biggest advertising panels provider in Monastir,Tunisia.',
+    href: 'https://www.seeadvertising.com',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    id: 'see-advertising',
+    image: SeeAdvertising,
+  },
+  {
+    title: 'Xaam',
+    displayUrl: 'www.xaam.app',
+    description:
+      'Xaam is a platform that allows teachers and parents to generate exercises and assigments with the help of ai algorithms.',
+    href: 'https://www.xaam.app',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    id: 'xaam',
     image: xaam,
   },
   {
-    title: "bluehouse",
-    displayUrl: "www.bluehouse.is",
+    title: 'bluehouse',
+    displayUrl: 'www.bluehouse.is',
     description:
-      "bluehouse is a platform that allows you to book accomendations and/or experiances in the city of Reykjavik, Iceland .",
-    href: "https://www.bluehouse.is",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "https://github.com/achrafsekri",
-    id: "bluehouse",
+      'bluehouse is a platform that allows you to book accomendations and/or experiances in the city of Reykjavik, Iceland .',
+    href: 'https://www.bluehouse.is',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    id: 'bluehouse',
     image: blueHouse,
   },
   {
-    title: "This website",
-    displayUrl: "https://www.achrafsekri.com",
-    description: "This website is my personal website.",
-    href: "https://www.achrafsekri.com",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    github: "www.github.com/achrafsekri/achrafsekri.com",
-    id: "achrafsekri.com",
+    title: 'This website',
+    displayUrl: 'https://www.achrafsekri.com',
+    description: 'This website is my personal website.',
+    href: 'https://www.achrafsekri.com',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'www.github.com/achrafsekri/achrafsekri.com',
+    id: 'achrafsekri.com',
     image: portfolio,
   },
+
   {
-    title: "Soccersat",
-    displayUrl: "www.soccersat.com",
+    title: 'Hoopooh admin dashboard',
+    displayUrl: 'www.app.hoopooh.com',
     description:
-      "Soccersat is dedicated to offering the most up-to-date and comprehensive listings of live football matches broadcasted on television worldwide.",
-    href: "https://www.soccersat.com",
-    icon: <WebsiteIcon className={clsx("my-2 h-16 w-16")} />,
-    id: "soccersat",
-    image: soccersat,
+      'hoopooh is an online platform that facilitates communication between kindergarten teachers and parents.',
+    href: 'https://www.hoopooh.com/en/',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    image: hoopoohAdmin,
+    id: 'hoopooh-admin',
   },
 ];
 
@@ -91,45 +94,45 @@ function ProjectsContents() {
   return (
     <>
       <SectionTitle
-        title="Hoopooh admin dashboard."
-        caption="Latest project"
-        description="hoopooh is an online platform that facilitates communication between kindergarten teachers and parents."
+        title='SeeAdvertising Landing Page.'
+        caption='Latest project'
+        description='SeeAdvertising is the biggest advertising panels provider in Monastir,Tunisia.'
         button={{
-          title: "learn more",
-          href: "https://www.hoopooh.com/en/",
+          title: 'learn more',
+          href: 'https://www.seeadvertisingtn.com',
         }}
       />
       <SectionContent>
-        <div className={clsx("flex", "lg:gap-12")}>
-          <div className={clsx("w-full", "lg:w-auto")}>
+        <div className={clsx('flex', 'lg:gap-12')}>
+          <div className={clsx('w-full', 'lg:w-auto')}>
             <div
               className={clsx(
-                "w-full py-12 grid grid-cols-1 lg:grid-cols-2 gap-12",
-                ""
+                'w-full py-12 grid grid-cols-1 lg:grid-cols-2 gap-12',
+                ''
               )}
             >
               {sections.map((section, index) => (
                 <AppWindow
                   key={index}
-                  type="browser"
+                  type='browser'
                   projectId={section.id}
                   browserTabs={[
                     {
-                      icon: <WebsiteIcon className="w-4 h-4" />,
-                      title: section.displayUrl || "about:blank",
-                      url: section.href || "#",
+                      icon: <WebsiteIcon className='w-4 h-4' />,
+                      title: section.displayUrl || 'about:blank',
+                      url: section.href || '#',
                       isActive: true,
                     },
                   ]}
                 >
                   <a
                     href={`/projects/${section.id}`}
-                    className="relative w-full h-full bg-orange-500 select-none"
+                    className='relative w-full h-full bg-orange-500 select-none'
                   >
                     <Image
                       src={section.image}
-                      className="w-full transition duration-300 select-none hover:scale-105 "
-                      alt={section.title || "about:blank"}
+                      className='w-full transition duration-300 select-none hover:scale-105 '
+                      alt={section.title || 'about:blank'}
                     />
                   </a>
                 </AppWindow>
