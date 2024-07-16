@@ -39,7 +39,7 @@ const sections = [
     displayUrl: 'www.seeadvertisingtn.com',
     description:
       'SeeAdvertising is the biggest advertising panels provider in Monastir,Tunisia.',
-    href: 'https://www.seeadvertising.com',
+    href: 'https://www.seeadvertisingtn.com',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     id: 'see-advertising',
     image: SeeAdvertising,
