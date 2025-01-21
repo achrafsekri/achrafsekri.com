@@ -36,7 +36,7 @@ function ButtonResume() {
     <a
       target="_blank"
       rel="noreferrer nofollow"
-      href="https://drive.google.com/file/d/1c2buXl6qipHsKycS9uRzjB_ns-OAdKpZ/view?usp=sharing"
+      href="https://resume.io/r/ED57HEgXi"
       className={clsx("button button--ghost px-2", "md:button--big md:px-2")}
     >
       <DocumentIcon className={clsx("h-5 w-5")} />

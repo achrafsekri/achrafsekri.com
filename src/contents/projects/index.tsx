@@ -8,11 +8,34 @@ import blueHouse from 'public/assets/images/bluehouse.png';
 import hoopooh from 'public/assets/images/hoopooh.png';
 import xaam from 'public/assets/images/xaam.png';
 import portfolio from 'public/assets/images/portfolio.png';
+import bookme from 'public/assets/images/bookme.png';
 import hoopoohAdmin from 'public/assets/images/hoopooh-admin.png';
 import soccersat from 'public/assets/images/soccersat.png';
 import SeeAdvertising from 'public/assets/images/SeeAdvertising.png';
-
+import allofacture from 'public/assets/images/allofacture.png';
 const sections = [
+  {
+    title: 'BookMe',
+    displayUrl: 'www.bookme.fans',
+    description:
+      'BookMe is a platform that allows content-creators, influencers, services providers to sell 1-on-1 sessions to their fans.',
+    href: 'https://www.bookme.fans',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    image: bookme,
+    id: 'bookme',
+  },
+  {
+    title: 'Allofacture',
+    displayUrl: 'www.allofacture.com',
+    description:
+      'AlloFacture is a simple and efficient invoice management system for the handyman.',
+    href: 'https://www.allofacture.com',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    image: allofacture,
+    id: 'allofacture',
+  },
   {
     title: 'Hoopooh',
     displayUrl: 'www.hoopooh.com',
