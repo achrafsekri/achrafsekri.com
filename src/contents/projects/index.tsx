@@ -13,7 +13,31 @@ import hoopoohAdmin from 'public/assets/images/hoopooh-admin.png';
 import soccersat from 'public/assets/images/soccersat.png';
 import SeeAdvertising from 'public/assets/images/SeeAdvertising.png';
 import allofacture from 'public/assets/images/allofacture.png';
+import lameh from 'public/assets/images/lamehai.png';
+import cruxhire from 'public/assets/images/cruxhire.png';
 const sections = [
+  {
+    title: 'LamehAi',
+    displayUrl: 'www.core.lameh.ai',
+    description:
+      'LamehAi is a platform that allows content-creators, influencers, services providers to sell 1-on-1 sessions to their fans.',
+    href: 'http://core.lameh.ai/',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    image: lameh,
+    id: 'lamehai',
+  },
+  {
+    title: 'cruxHire',
+    displayUrl: 'www.cruxhire.com',
+    description:
+      'cruxHire is an ai powered platform that allows recruiters to streamline their hiring process using a powerful ai agent.',
+    href: 'https://www.cruxhire.com',
+    icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
+    github: 'https://github.com/achrafsekri',
+    image: cruxhire,
+    id: 'cruxhire',
+  },
   {
     title: 'BookMe',
     displayUrl: 'www.bookme.fans',
