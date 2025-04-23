@@ -31,7 +31,7 @@ const sections = [
     title: 'cruxHire',
     displayUrl: 'www.cruxhire.com',
     description:
-      'cruxHire is an ai powered platform that allows recruiters to streamline their hiring process using a powerful ai agent.',
+      'cruxHire is an ai powered platform that allows recruiters to streamline their hiring process using a powerful ai agent',
     href: 'https://www.cruxhire.com',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
