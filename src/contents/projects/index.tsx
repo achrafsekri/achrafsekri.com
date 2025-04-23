@@ -14,7 +14,7 @@ import soccersat from 'public/assets/images/soccersat.png';
 import SeeAdvertising from 'public/assets/images/SeeAdvertising.png';
 import allofacture from 'public/assets/images/allofacture.png';
 import lameh from 'public/assets/images/lamehai.png';
-import cruxhire from 'public/assets/images/cruxhire.png';
+import cruxhire from 'public/assets/images/cruxHire.png';
 const sections = [
   {
     title: 'LamehAi',
