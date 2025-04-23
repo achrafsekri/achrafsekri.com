@@ -13,7 +13,7 @@ function Portal({ selector, children = null }: PropsWithChildren<PortalProps>) {
   useEffect(() => {
     setContainer(document.querySelector(selector));
   }, [selector]);
-
+  // @ts-ignore
   return container ? createPortal(children, container) : null;
 }
 

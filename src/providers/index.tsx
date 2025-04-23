@@ -17,6 +17,7 @@ function Provider({ children = null }: PropsWithChildren) {
           <ColorAccentProvider defaultScheme="violet">
             <GlobalStateProvider>
               <MDXProvider components={mdxCustomComponents}>
+                {/* @ts-ignore */}
                 {children}
               </MDXProvider>
             </GlobalStateProvider>
