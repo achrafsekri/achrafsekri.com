@@ -1,0 +1,152 @@
+---
+title: "Multi-Agent Architectures: When to Use Them and When to Keep It Simple"
+description: A practical framework for deciding when multi-agent systems add value vs. keeping it simple.
+caption: AI Engineering
+layout: Post
+lang: en
+date: "2025-02-10"
+tags: [Agents, Multi-Agent, Architecture, LLM Systems]
+category: ai-engineering
+---
+
+Multi-agent systems are the current hype in AI engineering. Every conference talk, every blog post, every framework release pushes the narrative that you need multiple specialized agents collaborating to solve problems. And sometimes that's true. But more often than not, a well-designed prompt chain or a single agent with good tools will outperform a multi-agent system while being dramatically simpler to build, debug, and maintain.
+
+Here's my framework for deciding when to reach for multi-agent architectures — and when to resist the complexity.
+
+## The Complexity Spectrum
+
+AI system architectures exist on a spectrum of complexity:
+
+1. **Single prompt** — one LLM call, maybe with some context
+2. **Prompt chain** — sequential LLM calls where output of one feeds the next
+3. **Router + specialized prompts** — classify the input, route to the right prompt/model
+4. **Single agent with tools** — one LLM that can call functions/tools to accomplish tasks
+5. **Multi-agent system** — multiple LLMs with distinct roles, communicating and coordinating
+
+Each level adds complexity, latency, cost, and failure modes. The right level is the simplest one that solves your problem reliably.
+
+## When Multi-Agent Makes Sense
+
+I've seen multi-agent architectures genuinely outperform simpler approaches in three scenarios:
+
+### 1. Genuinely Adversarial Workflows
+
+When you need one agent to generate and another to critique, the separation of concerns prevents the "sycophancy" problem where a single model agrees with its own output.
+
+Our document extraction pipeline uses this pattern: an extraction agent pulls data from financial documents, and a validation agent independently checks the extracted values against the source. The validation agent catches errors that a single self-checking prompt misses because it doesn't have the "I already said this is right" bias.
+
+### 2. Fundamentally Different Skill Requirements
+
+When subtasks require genuinely different capabilities — not just different prompts, but different models, different context windows, or different tool access.
+
+Example: a system that needs to (a) analyze a codebase using a model with 200K context window, (b) generate a visual architecture diagram using a vision model, and (c) write documentation using a model optimized for long-form text. These are genuinely different capabilities that benefit from specialization.
+
+### 3. Human-in-the-Loop Collaboration
+
+When multiple agents represent different roles in a workflow that mirrors human collaboration — and humans need to intervene at specific points.
+
+Example: a content pipeline where a research agent gathers information, a writing agent drafts content, and a compliance agent flags regulatory issues. Each handoff point is also where a human can review and redirect. The agent boundaries map to organizational boundaries.
+
+## When to Keep It Simple
+
+### "But My Problem Is Complex!"
+
+Complex problems don't automatically require complex architectures. A 10-step document processing pipeline sounds like it needs 10 agents. It doesn't. A single workflow with 10 sequential activities (each being a focused prompt) is simpler, faster, cheaper, and easier to debug.
+
+The test: **Can you define clear, non-overlapping responsibilities for each agent?** If two agents would share context, pass the same data back and forth, or need to coordinate on every decision, you probably want a single agent with multiple tools instead.
+
+### The Hidden Costs of Multi-Agent
+
+Every agent boundary introduces:
+
+- **Latency** — inter-agent communication takes time, often requiring additional LLM calls just for coordination
+- **Information loss** — summarizing context to pass between agents loses nuance
+- **Debugging complexity** — when the system produces wrong output, which agent is responsible? The one that generated? The one that validated? The orchestrator that routed incorrectly?
+- **Cost multiplication** — each agent uses tokens for context, reasoning, and coordination overhead
+- **Emergent failure modes** — agents can get stuck in loops, contradict each other, or make assumptions about what other agents will do
+
+### The Better Alternative: Single Agent + Good Tools
+
+For 90% of "multi-agent" use cases, a single agent with well-designed tools is superior. The key is investing in tool design rather than agent architecture.
+
+A well-designed tool:
+
+- Has a clear, unambiguous name and description
+- Takes structured inputs with sensible defaults
+- Returns structured outputs with error information
+- Handles its own retries and error cases
+- Is idempotent (safe to call twice)
+
+A single agent with 10 good tools beats 5 agents with 2 tools each — because the single agent has full context, no communication overhead, and a unified decision-making process.
+
+## Practical Patterns That Work
+
+### Pattern 1: Router + Specialist Prompts (Not Agents)
+
+Instead of a "router agent" that delegates to "specialist agents," use a simple classifier that routes to specialized prompt templates. No agent overhead, no inter-agent communication, just the right prompt for the job.
+
+```python
+async def process_query(query: str) -> str:
+    query_type = await classify_query(query)
+
+    if query_type == "financial_extraction":
+        return await run_extraction_prompt(query)
+    elif query_type == "summarization":
+        return await run_summary_prompt(query)
+    elif query_type == "comparison":
+        return await run_comparison_prompt(query)
+```
+
+This is 10x simpler than a multi-agent system and handles 80% of routing use cases.
+
+### Pattern 2: Orchestrator-Worker (Single Orchestrator)
+
+When you do need parallelism, use one orchestrator that plans the work and dispatches independent tasks:
+
+- The orchestrator decides what needs to be done and in what order
+- Workers execute individual tasks (these can be simple function calls, not full agents)
+- The orchestrator collects results and synthesizes
+
+The workers don't communicate with each other. The orchestrator holds all context. This avoids the N-agent communication explosion.
+
+### Pattern 3: Generator-Critic (Two Agents, Max)
+
+If you need adversarial checking, limit it to exactly two agents: one generates, one critiques. Don't add a "mediator" or "judge" on top — that's just adding latency. The generator can incorporate critique feedback directly.
+
+## My Decision Framework
+
+Before building a multi-agent system, answer these questions:
+
+1. **Can a single prompt with examples solve this?** If yes, stop here.
+2. **Can a prompt chain (2-3 sequential calls) solve this?** If yes, stop here.
+3. **Can a single agent with tools solve this?** If yes, stop here.
+4. **Do I have genuinely separate concerns that benefit from isolation?** If no, stop here.
+5. **Is the coordination overhead worth the specialization benefit?** Run the numbers — latency, cost, reliability.
+
+If you get through all five and still need multi-agent, go for it. But be honest with yourself at each step.
+
+## When I Was Wrong
+
+I'll share a case where I initially built a multi-agent system and later simplified it:
+
+We had a "research agent" that gathered information, an "analysis agent" that processed it, and a "writing agent" that produced reports. Three agents, coordinated by an orchestrator.
+
+The problem: the analysis agent needed context from the research agent. The writing agent needed context from both. Information was being summarized, re-summarized, and lost at each boundary. The final output was worse than a single long prompt that did all three steps.
+
+We replaced it with a single agent that had access to search tools and a structured output format. Better results, 3x faster, 60% cheaper.
+
+## Building Multi-Agent Systems Right
+
+If you do decide multi-agent is the right call, these practices reduce the pain:
+
+1. **Define clear contracts** between agents — structured input/output schemas, not free-form text
+2. **Minimize shared state** — each agent should be as independent as possible
+3. **Log everything** — every inter-agent message, every decision, every tool call
+4. **Build killswitches** — ability to bypass any agent and hard-code its output for debugging
+5. **Start with 2 agents** — add more only when you have evidence the current set isn't sufficient
+
+## The Takeaway
+
+Multi-agent architectures are a tool, not a goal. The senior engineering decision is knowing when NOT to use them. Start simple, measure what's failing, and only add agent complexity when simpler approaches demonstrably fall short.
+
+The best AI systems I've built are embarrassingly simple in architecture. The sophistication is in the prompts, the tool design, the evaluation infrastructure, and the operational practices — not in the number of agents.

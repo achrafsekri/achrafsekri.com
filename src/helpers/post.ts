@@ -105,7 +105,7 @@ export const getPostStructuredData = ({
       {
         "@type": "Person",
         name: "achrafsekri",
-        jobTitle: "Software Engineer",
+        jobTitle: "Senior AI Engineer",
         url: "https://www.achrafsekri.com/about",
       },
     ],

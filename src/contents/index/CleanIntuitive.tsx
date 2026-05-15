@@ -1,109 +1,94 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import Link from 'next/link';
 
-import { SectionButton } from '@/components/sections/SectionButton';
-import SectionContent from '@/components/sections/SectionContent';
 import SectionTitle from '@/components/sections/SectionTitle';
+import SectionContent from '@/components/sections/SectionContent';
 
-import TodoItem from '@/contents/index/Cards/TodoItem';
-
-import type { TodoItemState } from '@/contents/index/Cards/TodoItem';
-
-type Content = {
-  state: TodoItemState;
-  shows: Array<TodoItemState>;
-  title: string;
-  description: string;
-};
-
-const content: Array<Content> = [
+const posts = [
   {
-    state: 'typography',
-    shows: ['typography'],
-    title: 'Typography',
-    description: 'Selecting the font type, font size, and font weight.',
+    title: 'Building Production RAG Systems',
+    description:
+      'Lessons from processing 10K+ financial documents daily at enterprise scale.',
+    href: '/blog/building-production-rag-systems',
+    date: '2025-04-15',
   },
   {
-    state: 'spacing',
-    shows: ['typography', 'spacing'],
-    title: 'Spacing',
-    description: 'Positioning and adding spacing between elements.',
+    title: 'Temporal Orchestration for AI Pipelines',
+    description:
+      'Why your AI system needs a workflow engine for reliability and observability.',
+    href: '/blog/temporal-orchestration-for-ai-pipelines',
+    date: '2025-03-20',
   },
   {
-    state: 'colors',
-    shows: ['typography', 'spacing', 'colors'],
-    title: 'Colors',
-    description: 'Choosing a color scheme with sufficient contrast.',
+    title: 'LLM Evaluation in Production',
+    description:
+      'Building evaluation infrastructure that catches regressions before users do.',
+    href: '/blog/llm-evaluation-in-production',
+    date: '2025-05-01',
   },
   {
-    state: 'effects',
-    shows: ['typography', 'spacing', 'colors', 'effects'],
-    title: 'Effects',
-    description: 'Add effects like borders, shadows, rounded corners, etc.',
+    title: 'Multi-Agent Architectures',
+    description:
+      'When to use them and when to keep it simple — a practical framework.',
+    href: '/blog/multi-agent-architectures',
+    date: '2025-02-10',
   },
 ];
 
 function CleanIntuitive() {
-  const [currentState, setCurrentState] = useState<Content | null>(null);
-
   return (
     <>
       <header className={clsx('mb-8')}>
         <SectionTitle
-          title="Eye Catching, Modern & Minimalist Design."
-          caption="Clean & Intuitive"
-          description="Keep the User Interface clean with a modern touch without
-            compromising the User Experience."
+          title="Writing About AI Engineering."
+          caption="Blog"
+          description="Sharing lessons from building production AI systems — RAG pipelines, orchestration, evaluation, and architectural decisions."
+          button={{
+            title: 'view all posts',
+            href: '/blog',
+          }}
         />
       </header>
       <SectionContent>
-        <div className={clsx('flex', 'lg:gap-12')}>
-          <div
-            className={clsx('-mt-8 hidden flex-1 flex-col gap-3', 'lg:flex')}
-          >
-            {content.map((item, i) => (
-              <SectionButton
-                key={item.state}
-                title={item.title}
-                description={item.description}
-                github="null"
-                icon={i + 1}
-                active={currentState?.state === item.state}
-                onClick={() => setCurrentState(item)}
-              />
-            ))}
-          </div>
-          <div
-            className={clsx('relative flex flex-1 items-center justify-center')}
-          >
-            <div
-              className={clsx('-mt-8 flex gap-4', 'md:gap-6 lg:top-8 lg:mt-0')}
+        <div className={clsx('flex flex-col gap-4 mt-8', 'lg:mt-12')}>
+          {posts.map((post) => (
+            <Link
+              key={post.href}
+              href={post.href}
+              className={clsx(
+                'group rounded-xl border border-divider-light p-4 transition',
+                'hover:border-accent-400 hover:bg-slate-50',
+                'dark:border-divider-dark dark:hover:border-accent-400 dark:hover:bg-slate-800/50',
+                'md:p-6'
+              )}
             >
-              <div>
-                <TodoItem
-                  state={
-                    currentState
-                      ? currentState.shows
-                      : ['typography', 'spacing', 'colors', 'effects']
-                  }
-                />
+              <div
+                className={clsx(
+                  'mb-1 text-xs text-slate-500',
+                  'dark:text-slate-400'
+                )}
+              >
+                {post.date}
               </div>
-              <div className={clsx('hidden', 'sm:block lg:hidden')}>
-                <TodoItem
-                  state={
-                    currentState
-                      ? currentState.shows
-                      : ['typography', 'spacing', 'colors', 'effects']
-                  }
-                  title="UI Implementation"
-                  description="Start creating UI components using React and Tailwind CSS."
-                  date="10:00 AM · Tomorrow"
-                  tag1="Design"
-                  tag2="Components"
-                />
-              </div>
-            </div>
-          </div>
+              <h3
+                className={clsx(
+                  'mb-1 text-lg font-bold text-slate-700',
+                  'group-hover:text-accent-600',
+                  'dark:text-slate-300 dark:group-hover:text-accent-400'
+                )}
+              >
+                {post.title}
+              </h3>
+              <p
+                className={clsx(
+                  'text-sm text-slate-600',
+                  'dark:text-slate-400'
+                )}
+              >
+                {post.description}
+              </p>
+            </Link>
+          ))}
         </div>
       </SectionContent>
     </>

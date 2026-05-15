@@ -8,8 +8,8 @@ function Index() {
   return (
     <>
       <Head
-        title="Achraf Sekri · Software Engineer"
-        description="An online portfolio featuring a showcase of my projects and some thoughts as a Front-End Engineer who loves intuitive, clean and modern UI design."
+        title="Achraf Sekri · Senior AI Engineer"
+        description="Senior AI Engineer building scalable AI infrastructure, LLM systems, and distributed pipelines for enterprise applications."
         ogImage={`${getBaseUrl()}/assets/images/og-image.png`}
         overrideTitle
       />

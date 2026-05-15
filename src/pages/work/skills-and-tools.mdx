@@ -1,6 +1,6 @@
 ---
 title: Skills and Tools
-description: A look at all the programming languages, libraries, and tools I've worked with.
+description: A look at my AI engineering stack — from LLM systems to distributed infrastructure.
 caption: Work
 layout: PageWithMDX
 ---
@@ -8,59 +8,37 @@ layout: PageWithMDX
 import { Label } from "@/components/mdx/Labels";
 import { VStack, HStack } from "@/components/mdx/Stack";
 
-I started my career as a web developer about **{new Date().getFullYear() - 2019} years ago**adn since then, I've been playing with multiple technologies in both the front-end and back-end.
+I started building software **{new Date().getFullYear() - 2019} years ago** and have spent the last few years specializing in **AI infrastructure**, **LLM systems**, and **distributed backend architectures**.
 
-Even though the scope of web development is broad, I was very interested and focused on **Front-End Development** and **UI/UX Design**.
+My focus is on building production-grade AI systems — from document extraction pipelines processing thousands of files daily to multi-agent orchestration frameworks that power enterprise intelligence platforms.
 
 ---
 
-## Software Engineer
+## AI & Machine Learning
 
-I love creating web apps that not only look great, but also function flawlessly. The process of taking an idea from concept to finished product is exhilarating, and I find great satisfaction in seeing my work come to life.
+I design and build end-to-end AI systems that go beyond prototypes — systems that handle real traffic, real data, and real failure modes at scale.
 
-I really enjoy creating websites with **rich UI components**, including:
+Core competencies include:
 
-- **Web application**,
-- **Creative landing page**,
-- **CMS contents layout**,
-- **Dashboard layout**,
-- and others.
+- **LLM Systems** — prompt engineering, fine-tuning, guardrails, cost optimization
+- **RAG Pipelines** — hybrid search, chunking strategies, retrieval relevance tuning
+- **Agent Architectures** — multi-agent orchestration, tool design, workflow patterns
+- **Document Intelligence** — extraction, classification, post-processing pipelines
+- **Evaluation & Monitoring** — LLM-as-Judge, drift detection, assertion-based testing
 
-But I still like to make simple website pages like **simple landing pages**. So, what tools did I feel comfortable using during the website creation?
+---
 
-### TypeScript
+## Infrastructure & Backend
 
-I love TypeScript especially when it comes to back-end development, and it has been a huge time and life-saver. I can't recommend it enough.
+I architect distributed systems that are resilient, observable, and cost-efficient:
 
-### React
+- **Workflow Orchestration** — Temporal for complex multi-step AI pipelines
+- **Async Architectures** — event-driven processing, message queues, async services
+- **Cloud-Native** — AWS (SageMaker, Lambda, ECS), containerized deployments
+- **API Design** — FastAPI, high-throughput async services, WebSocket systems
+- **Observability** — monitoring, alerting, pipeline reliability systems
 
-I really enjoy building single page applications and websites and React is my go-to library.
-
-I've been using it **since 2020 ({new Date().getFullYear() - 2020} years)** and have become quite proficient with it.
-
-### Tailwind CSS
-
-TailwindCSS has made styling my components that much easier; it's definitely a go-to.
-
-### Framer Motion
-
-For animations, I am more comfortable using Framer Motion. Creating animations using JavaScript has **never been as easy as using Framer Motion**.
-
-### Next.js
-
-I've been using CRA for a few years, but since discovering Next.js, I don't think I would want to use any other web framework. **It's just that good!**
-
-### Prisma
-
-I recently started using Prisma and haven't looked back when it comes out to database manupilation.
-
-## UI/UX Designer
-
-I've been Designing user interfaces **for {new Date().getFullYear() - 2019} years now**.
-
-My main focus is on creating an exceptional user experience while also developing visually appealing user interfaces. It's a delicate balancing act, and I'm always thinking about how to achieve the perfect combination of both elements.
-
-One of the biggest challenges I face is finding the sweet spot between a stunning UI and a seamless UX. While a visually appealing interface can draw users in, a smooth and intuitive experience is what keeps them engaged.
+---
 
 ## Detail and Summary
 
@@ -68,69 +46,84 @@ I represent all data in labels to make it easier to read. The **underline indica
 
 <br />
 <HStack spacing={8}>
-  <Label indicator={100}>Frequently Used</Label>
+  <Label indicator={100}>Daily Use</Label>
   <Label indicator={25}>Occasionally</Label>
 </HStack>
 
-### Programming and Markup Languages
+### Programming Languages
 
 <VStack spacing={12}>
   <HStack spacing={8}>
+    <Label indicator={100}>Python</Label>
     <Label indicator={100}>TypeScript</Label>
-    <Label indicator={100}>JavaScript</Label>
-    <Label indicator={100}>HTML</Label>
-    <Label indicator={100}>CSS/SCSS</Label>
+    <Label indicator={75}>SQL</Label>
   </HStack>
   <HStack spacing={8}>
-    <Label indicator={25}>Python</Label>
-    <Label indicator={25}>SQL</Label>
+    <Label indicator={50}>JavaScript</Label>
+    <Label indicator={25}>Go</Label>
   </HStack>
 </VStack>
 
-### Technologies
+### AI & LLM Stack
 
 <VStack spacing={12}>
   <HStack spacing={8}>
-    <Label indicator={100}>Tailwind CSS</Label>
-    <Label indicator={75}>Material UI</Label>
-    <Label indicator={25}>Chakra UI</Label>
-    <Label indicator={75}>Prisma</Label>
-    <Label indicator={100}>Axios</Label>
-    <Label indicator={100}>React Query</Label>
+    <Label indicator={100}>LangChain</Label>
+    <Label indicator={100}>OpenAI API</Label>
+    <Label indicator={100}>Claude API</Label>
+    <Label indicator={75}>Hugging Face</Label>
+    <Label indicator={75}>RAG Systems</Label>
   </HStack>
   <HStack spacing={8}>
-    <Label indicator={100}>React</Label>
+    <Label indicator={75}>Vector Databases</Label>
+    <Label indicator={50}>Fine-tuning</Label>
+    <Label indicator={50}>AWS SageMaker</Label>
+    <Label indicator={50}>Embeddings</Label>
+  </HStack>
+</VStack>
+
+### Backend & Infrastructure
+
+<VStack spacing={12}>
+  <HStack spacing={8}>
+    <Label indicator={100}>FastAPI</Label>
+    <Label indicator={100}>Temporal</Label>
+    <Label indicator={100}>Docker</Label>
+    <Label indicator={100}>PostgreSQL</Label>
+    <Label indicator={75}>Redis</Label>
+  </HStack>
+  <HStack spacing={8}>
+    <Label indicator={75}>AWS</Label>
+    <Label indicator={75}>Kubernetes</Label>
+    <Label indicator={50}>Kafka</Label>
+    <Label indicator={50}>RabbitMQ</Label>
+    <Label indicator={50}>Terraform</Label>
+  </HStack>
+</VStack>
+
+### Frontend & Full-Stack
+
+<VStack spacing={12}>
+  <HStack spacing={8}>
+    <Label indicator={75}>React</Label>
     <Label indicator={75}>Next.js</Label>
-    <Label indicator={50}>Framer Motion</Label>
-    <Label indicator={50}>Storybook</Label>
-    <Label indicator={25}>Redux</Label>
-    <Label indicator={25}>Webpack</Label>
-    <Label indicator={50}>Planetscale</Label>
-    <Label indicator={50}>Aws amplify</Label>
-    <Label indicator={50}>Vercel</Label>
-    <Label indicator={25}>WordPress</Label>
-    <Label indicator={25}>Express</Label>
-    <Label indicator={25}>Redis</Label>
-    <Label indicator={25}>MongoDB</Label>
-
-  </HStack>
-  <HStack spacing={8}>
-    <Label indicator={50}>NextAuth.js</Label>
-    <Label indicator={50}>Firebase</Label>
-
+    <Label indicator={50}>Tailwind CSS</Label>
+    <Label indicator={50}>Node.js</Label>
   </HStack>
 </VStack>
 
-### Softwares and Tools
+### Tools & Practices
 
 <VStack spacing={12}>
   <HStack spacing={8}>
-    <Label indicator={100}>VS Code</Label>
-    <Label indicator={100}>Node.js</Label>
     <Label indicator={100}>Git</Label>
+    <Label indicator={100}>Linux</Label>
+    <Label indicator={100}>CI/CD</Label>
+    <Label indicator={75}>Monitoring & Observability</Label>
   </HStack>
   <HStack spacing={8}>
-    <Label indicator={100}>Figma</Label>
-    <Label indicator={25}>Photoshop</Label>
+    <Label indicator={75}>VS Code</Label>
+    <Label indicator={75}>Postman</Label>
+    <Label indicator={50}>Grafana</Label>
   </HStack>
 </VStack>

@@ -1,0 +1,103 @@
+---
+title: "Building Production RAG Systems: Lessons from Processing 10K+ Financial Documents"
+description: Lessons from designing a RAG pipeline that processes thousands of financial documents daily.
+caption: AI Engineering
+layout: Post
+lang: en
+date: "2025-04-15"
+tags: [RAG, LLM, Production Systems, Document Intelligence]
+category: ai-engineering
+---
+
+Most RAG tutorials show you how to chunk a PDF and query it with an LLM. That's the easy part. The hard part is making it work reliably when you're processing 10,000+ financial documents daily, your users expect sub-second latency, and a hallucinated number could mean a multi-million dollar mistake.
+
+At Lameh, I've been building the document intelligence pipeline that powers financial analytics for some of Saudi Arabia's largest capital institutions. Here's what I wish I knew before starting.
+
+## The Naive Approach Breaks at Scale
+
+The standard RAG recipe — chunk documents, embed them, store in a vector DB, retrieve top-k, generate — works fine for demos. In production with financial documents, it falls apart in specific ways:
+
+**Chunking destroys context.** Financial tables span multiple pages. A balance sheet split across chunks loses its meaning. Fixed-size chunking is the worst offender here.
+
+**Semantic search alone isn't enough.** When a user asks "What was Company X's revenue in Q3 2024?", the answer might be a number in a table that has zero semantic similarity to the question. You need hybrid search — BM25 for exact matches combined with dense embeddings for semantic understanding.
+
+**Retrieval relevance degrades silently.** Unlike a traditional search engine where bad results are obviously bad, RAG systems will confidently generate plausible-sounding answers from irrelevant chunks. You won't know it's wrong unless you have evaluation infrastructure.
+
+## What Actually Works
+
+### Structured Extraction Before RAG
+
+Instead of treating documents as unstructured text, we run a structured extraction pipeline first. Financial documents have predictable schemas — income statements, balance sheets, cash flow statements all follow known patterns.
+
+We extract structured data (tables, key-value pairs, named entities) and store it separately from the raw text. This gives us two retrieval paths: structured queries against extracted data, and semantic search against the full text for everything else.
+
+### Hybrid Search with Re-ranking
+
+Our retrieval stack uses three layers:
+
+1. **BM25** for exact keyword matching (critical for financial identifiers, ticker symbols, specific dates)
+2. **Dense embeddings** for semantic similarity (good for conceptual questions)
+3. **Cross-encoder re-ranking** on the combined results to surface the most relevant chunks
+
+The re-ranking step alone improved our answer accuracy by 23% on our eval set.
+
+### Chunking Strategy Matters More Than Model Choice
+
+We spent weeks evaluating different LLMs before realizing our chunking strategy was the bottleneck. We moved to:
+
+- **Document-aware chunking** that respects section boundaries, table structures, and page layouts
+- **Overlapping windows** with metadata inheritance (so a chunk from page 5 still knows it belongs to "Company X Annual Report 2024")
+- **Parent-child retrieval** where we retrieve the specific chunk but feed the parent section to the LLM for context
+
+### Guardrails Are Non-Negotiable
+
+For financial data, we implement multiple layers of validation:
+
+- **Numerical consistency checks** — if the LLM cites a revenue figure, we verify it against our structured extraction
+- **Source attribution** — every generated answer must cite specific document sections
+- **Confidence scoring** — the system flags low-confidence answers for human review rather than presenting them as facts
+- **Hallucination detection** — we compare generated claims against the source documents using an assertion-based evaluation
+
+## Evaluation Infrastructure
+
+You can't improve what you can't measure. We built a continuous evaluation system that tracks:
+
+- **Retrieval relevance** — are we finding the right chunks?
+- **Answer faithfulness** — does the generated answer actually reflect the source material?
+- **Answer correctness** — is the final answer factually right? (requires ground truth)
+- **Latency percentiles** — P50, P95, P99 across the full pipeline
+
+We run evaluations on every deployment against a curated test set of 500+ question-answer pairs derived from real user queries.
+
+## Cost Optimization
+
+Processing 10K+ documents daily through LLM-based extraction isn't cheap. Key strategies we use:
+
+- **Tiered processing** — simple documents get cheaper, faster models; complex multi-page reports get the full pipeline
+- **Aggressive caching** — if a document hasn't changed, don't re-process it
+- **Batch processing** — group similar documents for more efficient GPU utilization
+- **Prompt optimization** — shorter, more targeted prompts reduce token costs by 40% without accuracy loss
+
+## The Architecture That Emerged
+
+After months of iteration, our pipeline looks like this:
+
+1. **Ingestion** — Document classification, OCR if needed, metadata extraction
+2. **Structured Extraction** — Tables, entities, key figures extracted into structured storage
+3. **Chunking & Embedding** — Document-aware chunking with hybrid embeddings
+4. **Indexing** — Dual index (BM25 + vector) with metadata filtering
+5. **Retrieval** — Hybrid search with cross-encoder re-ranking
+6. **Generation** — LLM with structured prompts, source citations, and guardrails
+7. **Validation** — Post-generation checks against structured data
+
+Each step is orchestrated through Temporal workflows, which gives us retry logic, observability, and the ability to replay failed executions — critical when you're processing documents that affect real financial decisions.
+
+## Key Takeaways
+
+1. **Start with evaluation infrastructure.** Build your eval set before optimizing anything else.
+2. **Structured extraction + RAG > RAG alone** for domain-specific documents.
+3. **Hybrid search is table stakes.** Pure semantic search will miss critical exact-match queries.
+4. **Chunking strategy has more impact than model selection** on answer quality.
+5. **Guardrails aren't optional** when wrong answers have real consequences.
+
+The gap between a RAG demo and a production RAG system is enormous. Most of the engineering effort goes into the parts that aren't in any tutorial — evaluation, monitoring, error handling, cost optimization, and making the system degrade gracefully when it encounters documents it hasn't seen before.

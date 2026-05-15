@@ -20,7 +20,7 @@ const sections = [
     title: 'LamehAi',
     displayUrl: 'www.core.lameh.ai',
     description:
-      'LamehAi is a platform that allows content-creators, influencers, services providers to sell 1-on-1 sessions to their fans.',
+      'Enterprise AI platform for financial intelligence — scalable document extraction pipelines, Temporal orchestration, and LLM-powered analytics serving top Saudi capital institutions.',
     href: 'http://core.lameh.ai/',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
@@ -31,7 +31,7 @@ const sections = [
     title: 'cruxHire',
     displayUrl: 'www.cruxhire.com',
     description:
-      'cruxHire is an ai powered platform that allows recruiters to streamline their hiring process using a powerful ai agent',
+      'AI-powered recruitment platform with an intelligent agent that automates candidate screening, interview scheduling, and hiring pipeline management for recruiters.',
     href: 'https://www.cruxhire.com',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
@@ -42,7 +42,7 @@ const sections = [
     title: 'BookMe',
     displayUrl: 'www.bookme.fans',
     description:
-      'BookMe is a platform that allows content-creators, influencers, services providers to sell 1-on-1 sessions to their fans.',
+      'Real-time communication platform with WebSocket infrastructure, AWS Chime integration, and identity verification serving 5,000+ monthly active users.',
     href: 'https://www.bookme.fans',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
@@ -53,7 +53,7 @@ const sections = [
     title: 'Allofacture',
     displayUrl: 'www.allofacture.com',
     description:
-      'AlloFacture is a simple and efficient invoice management system for the handyman.',
+      'Invoice management system with automated document processing and intelligent categorization for independent contractors.',
     href: 'https://www.allofacture.com',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
@@ -64,7 +64,7 @@ const sections = [
     title: 'Hoopooh',
     displayUrl: 'www.hoopooh.com',
     description:
-      'hoopooh is an online platform that facilitates communication between kindergarten teachers and parents.',
+      'EdTech platform with AI-powered EYFS classification (Mistral 7B fine-tuned for 400+ categories) and ML models deployed on AWS SageMaker, serving 150+ institutions.',
     href: 'https://www.hoopooh.com/en/',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
@@ -95,7 +95,7 @@ const sections = [
     title: 'Xaam',
     displayUrl: 'www.xaam.app',
     description:
-      'Xaam is a platform that allows teachers and parents to generate exercises and assigments with the help of ai algorithms.',
+      'AI-powered education platform that generates personalized exercises and assignments using LLM algorithms, adapting to student learning patterns.',
     href: 'https://www.xaam.app',
     icon: <WebsiteIcon className={clsx('my-2 h-16 w-16')} />,
     github: 'https://github.com/achrafsekri',
@@ -141,12 +141,12 @@ function ProjectsContents() {
   return (
     <>
       <SectionTitle
-        title='SeeAdvertising Landing Page.'
+        title='Lameh AI Platform.'
         caption='Latest project'
-        description='SeeAdvertising is the biggest advertising panels provider in Monastir,Tunisia.'
+        description='Enterprise AI infrastructure for financial document intelligence, powering top Saudi capital institutions.'
         button={{
           title: 'learn more',
-          href: 'https://www.seeadvertisingtn.com',
+          href: 'http://core.lameh.ai/',
         }}
       />
       <SectionContent>

@@ -113,8 +113,8 @@ function FooterDescription() {
         About Me
       </div>
       <p className={clsx('mb-4 font-normal leading-relaxed')}>
-        I&apos;m Achraf, a <strong>FullStack Engineer</strong> who is
-        passionate about building web apps and a UX enthusiast.
+        I&apos;m Achraf, a <strong>Senior AI Engineer</strong> building
+        scalable AI infrastructure and intelligent systems.
       </p>
       <ul className={clsx('-ml-2 flex gap-1')}>
         <li>
@@ -168,19 +168,11 @@ function Footer() {
             >
               <div className={clsx('flex', 'sm:gap-16')}>
                 <FooterGroup
-                  title="Work"
+                  title="Links"
                   links={[
+                    { title: 'Projects', href: '/projects' },
+                    { title: 'Blog', href: '/blog' },
                     { title: 'Contact', href: '/work/contact' },
-                    { title: 'Experience', href: '/work/experience' },
-                    // {
-                    //   title: 'Services',
-                    //   href: '/work/services',
-                    //   label: 'soon',
-                    // },
-                    {
-                      title: 'Skills and Tools',
-                      href: '/work/skills-and-tools',
-                    },
                   ]}
                 />
               </div>

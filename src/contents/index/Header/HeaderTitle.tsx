@@ -91,10 +91,10 @@ function HeaderTitle() {
               'dark:text-slate-300'
             )}
           >
-            Software Engineer
+            Senior AI Engineer
           </strong>{' '}
-          who is here to visualise your ideas and
-          <span className={clsx('block')}>bring them to life.</span>
+          building scalable AI infrastructure and
+          <span className={clsx('block')}>intelligent systems that ship.</span>
         </m.h1>
       </span>
     </div>

@@ -1,0 +1,165 @@
+---
+title: "The Senior AI Engineer's Guide to LLM Evaluation in Production"
+description: Building evaluation infrastructure that catches LLM regressions before your users do.
+caption: AI Engineering
+layout: Post
+lang: en
+date: "2025-05-01"
+tags: [LLM, Evaluation, Production, Monitoring]
+category: ai-engineering
+---
+
+Here's a pattern I see constantly: a team builds an LLM-powered feature, eyeballs a few outputs, ships it, and then has no idea when it starts degrading. Three weeks later, a user complains that answers are worse. The team checks — the model provider silently updated their model, or a prompt change in an adjacent system shifted behavior. Nobody noticed because there was no evaluation infrastructure.
+
+Evaluation isn't a nice-to-have for LLM systems. It's the equivalent of a test suite for traditional software — without it, you're shipping blind.
+
+## Why LLM Evaluation Is Different
+
+Traditional software testing is deterministic. Given the same input, you expect the same output. LLM systems are stochastic — the same input can produce different (but equally valid) outputs. This breaks traditional testing approaches.
+
+You can't write `assertEqual(llm_output, expected_output)` because there are infinite valid phrasings of a correct answer. Instead, you need evaluation strategies that assess quality along multiple dimensions:
+
+- **Faithfulness** — does the output accurately reflect the source data?
+- **Relevance** — does it answer what was actually asked?
+- **Completeness** — does it cover all necessary information?
+- **Harmlessness** — does it avoid hallucinations, toxicity, or data leakage?
+
+## The Evaluation Stack
+
+After building evaluation systems for multiple production LLM applications, here's the architecture that works:
+
+### Layer 1: Assertion-Based Unit Tests
+
+Start with deterministic checks that catch obvious failures:
+
+```python
+def test_extraction_returns_required_fields():
+    result = extract_financial_data(sample_document)
+    assert "revenue" in result
+    assert "net_income" in result
+    assert isinstance(result["revenue"], (int, float))
+    assert result["fiscal_year"] == 2024
+
+def test_no_hallucinated_companies():
+    result = generate_summary(document_about_company_a)
+    known_companies = extract_company_names(document_about_company_a)
+    mentioned_companies = extract_company_names(result)
+    for company in mentioned_companies:
+        assert company in known_companies, f"Hallucinated company: {company}"
+```
+
+These won't catch subtle quality issues, but they catch catastrophic failures — wrong data types, missing fields, obvious hallucinations. Run them on every deployment.
+
+### Layer 2: LLM-as-Judge
+
+For quality dimensions that can't be tested with simple assertions, use a separate LLM to evaluate outputs. This sounds circular, but it works remarkably well when done right:
+
+```python
+FAITHFULNESS_PROMPT = """
+Given the following source document and generated answer,
+rate whether the answer is faithful to the source material.
+
+Source: {source}
+Answer: {answer}
+
+Score (1-5):
+1 = Contains claims not supported by the source
+2 = Mostly faithful but includes minor unsupported inferences
+3 = Faithful but omits important caveats from the source
+4 = Faithful and accurate representation of the source
+5 = Perfectly faithful, all claims directly supported
+
+Score:
+Reasoning:
+"""
+```
+
+Key principles for LLM-as-Judge:
+
+- **Use a different model** than your generation model. If you're generating with GPT-4, evaluate with Claude (or vice versa). Same-model evaluation has blind spots.
+- **Pairwise comparisons** are more reliable than absolute scores. Instead of "rate this answer 1-5", ask "which answer is better, A or B?"
+- **Provide scoring rubrics** with concrete examples for each score level.
+- **Calibrate against human judgments** — run your LLM-as-Judge on examples where you have ground truth human ratings and measure correlation.
+
+### Layer 3: Reference-Based Evaluation
+
+For queries where you have known-correct answers (your "golden set"), compute traditional metrics:
+
+- **ROUGE/BLEU** for surface-level text similarity
+- **Semantic similarity** (embedding cosine distance) for meaning preservation
+- **Exact match** for extractive tasks (dates, numbers, identifiers)
+
+These are fast, cheap, and deterministic. Build a golden set of 200-500 question-answer pairs from real user queries and run reference-based eval on every deployment.
+
+### Layer 4: Production Monitoring
+
+Evaluation doesn't stop at deployment. In production, track:
+
+- **Response latency distribution** — sudden increases signal model or infra issues
+- **Token usage patterns** — unexpected increases may indicate prompt injection or system issues
+- **User feedback signals** — thumbs up/down, regeneration requests, session abandonment
+- **Confidence score distribution** — shifts indicate the model is encountering unfamiliar inputs
+- **Error rates by query type** — degradation often affects specific categories first
+
+## Building Your Eval Set
+
+The quality of your evaluation is only as good as your eval dataset. Here's how to build one that's actually useful:
+
+### Start with Production Data
+
+Don't invent test cases — pull them from real usage. The distribution of your eval set should match the distribution of real queries. If 60% of your users ask about revenue figures, 60% of your eval set should be about revenue figures.
+
+### Include Adversarial Cases
+
+Deliberately include inputs that are designed to trip up the system:
+
+- Questions about data that doesn't exist in the source
+- Ambiguous queries with multiple valid interpretations
+- Edge cases from your specific domain (e.g., negative revenue, restated financials)
+- Prompt injection attempts
+
+### Version Your Eval Set
+
+Your eval set will evolve. When you find a failure in production, add it to the eval set. When requirements change, update the expected outputs. Track eval set versions alongside model/prompt versions so you can reproduce any historical evaluation.
+
+## Detecting Drift
+
+Model drift in LLM systems is subtle. The model provider updates their model, your eval scores drop 2%, nobody notices. Two months later, it's dropped 8% and users are churning.
+
+Implement statistical drift detection:
+
+1. **Establish baselines** — run your full eval suite and record score distributions
+2. **Monitor continuously** — run eval samples on production traffic (sampling 5-10% is usually sufficient)
+3. **Alert on statistical shifts** — use simple statistical tests (Kolmogorov-Smirnov, or just track rolling averages against baselines)
+4. **Bisect when drift is detected** — was it a model update? A prompt change? A data pipeline issue?
+
+## Cost-Effective Evaluation
+
+Running LLM-as-Judge on every request is expensive. Strategies to manage cost:
+
+- **Sample production traffic** — evaluate 5-10% of requests, not all of them
+- **Tiered evaluation** — cheap assertions on everything, expensive LLM-as-Judge on samples
+- **Batch evaluation** — run comprehensive eval suites nightly, not on every request
+- **Cache eval results** — if the same input produces the same output, don't re-evaluate
+
+## The Minimum Viable Eval System
+
+If you're starting from zero, here's what to build first:
+
+1. **50 golden test cases** from real production queries with human-verified answers
+2. **Assertion tests** that check structure, required fields, and basic correctness
+3. **One LLM-as-Judge dimension** — faithfulness is usually the most important
+4. **A CI pipeline** that runs the eval suite before every deployment and blocks if scores drop below threshold
+5. **A dashboard** showing eval scores over time
+
+This takes 2-3 days to build and will catch 80% of the regressions that would otherwise reach users.
+
+## Key Principles
+
+1. **Evaluate early, evaluate often.** Every prompt change, model update, or pipeline modification should trigger an eval run.
+2. **Automate the boring parts.** Assertions and reference-based evals are cheap and fast — run them everywhere.
+3. **Reserve human judgment for calibration.** Humans should calibrate the eval system, not manually review every output.
+4. **Make evaluation a deployment gate.** If eval scores drop below threshold, the deployment doesn't proceed.
+5. **Invest in your eval dataset.** It's your most valuable asset for LLM system quality — treat it like production code.
+
+The teams that build robust evaluation infrastructure early move faster in the long run. They can safely experiment with prompts, swap models, and refactor pipelines — because they have confidence that regressions will be caught before users see them.

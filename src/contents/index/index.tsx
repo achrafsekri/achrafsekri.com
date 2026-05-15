@@ -1,12 +1,10 @@
 import clsx from 'clsx';
 
-import { CodeIcon, DocumentIcon, EyeIcon } from '@/components/Icons';
+import { BrainIcon, CodeIcon, ServerIcon } from '@/components/Icons';
 
 import CleanIntuitive from '@/contents/index/CleanIntuitive';
-import DetailOriented from '@/contents/index/DetailOriented';
 import FeaturedCard from '@/contents/index/FeaturedCard';
 import Header from '@/contents/index/Header';
-import PrettyOptimized from '@/contents/index/PrettyOptimized';
 import Quote from '@/contents/index/Quote';
 
 function FeaturedCardSection() {
@@ -21,11 +19,11 @@ function FeaturedCardSection() {
                 'dark:bg-amber-900'
               )}
             >
-              <CodeIcon className={clsx('h-5 w-5 text-white')} />
+              <BrainIcon className={clsx('h-5 w-5 text-white')} />
             </div>
           }
-          title="Front-End Development"
-          desc="Building modern and intuitive UIs with clean code."
+          title="AI Infrastructure"
+          desc="Designing scalable AI pipelines and LLM-powered systems for production."
         />
         <FeaturedCard
           icon={
@@ -35,11 +33,11 @@ function FeaturedCardSection() {
                 'dark:bg-pink-900'
               )}
             >
-              <DocumentIcon className={clsx('h-5 w-5 text-white')} />
+              <CodeIcon className={clsx('h-5 w-5 text-white')} />
             </div>
           }
-          title="Backend Development"
-          desc="Fast, secure and reliable backend development."
+          title="LLM Systems & Pipelines"
+          desc="Building RAG, extraction, and orchestration systems at enterprise scale."
         />
         <FeaturedCard
           icon={
@@ -49,11 +47,11 @@ function FeaturedCardSection() {
                 'dark:bg-sky-900'
               )}
             >
-              <EyeIcon className={clsx('h-5 w-5 text-white')} />
+              <ServerIcon className={clsx('h-5 w-5 text-white')} />
             </div>
           }
-          title="UI/UX Design"
-          desc="Keeping the UI clean with a modern touch without compromising UX."
+          title="Distributed Systems"
+          desc="Event-driven architectures with Temporal, async services, and cloud-native infrastructure."
         />
       </div>
     </div>
@@ -82,12 +80,6 @@ function IndexContents() {
       </div>
       <section className={clsx('mb-12', 'lg:mb-24')}>
         <CleanIntuitive />
-      </section>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <DetailOriented />
-      </section>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <PrettyOptimized />
       </section>
     </>
   );

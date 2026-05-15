@@ -1,0 +1,152 @@
+---
+title: "Temporal Orchestration for AI Pipelines: Why Your AI System Needs a Workflow Engine"
+description: How Temporal transformed our AI pipeline from fragile cron jobs to resilient, self-healing workflows.
+caption: Infrastructure
+layout: Post
+lang: en
+date: "2025-03-20"
+tags: [Temporal, AI Pipelines, Orchestration, Distributed Systems]
+category: ai-engineering
+---
+
+Six months ago, our AI extraction pipeline was a collection of FastAPI endpoints, Celery tasks, and cron jobs held together by Redis queues and optimistic error handling. It processed financial documents — each one requiring multiple LLM calls, table extraction, validation, and post-processing. When things worked, it was fine. When they didn't, we had no idea where the failure occurred or how to recover.
+
+Then we adopted Temporal for workflow orchestration, and it fundamentally changed how we think about building AI systems.
+
+## The Problem with "Just Use a Queue"
+
+Most AI pipeline architectures start the same way: throw tasks onto a message queue (Redis, RabbitMQ, SQS) and have workers pick them up. This works until:
+
+- **A step fails mid-pipeline.** Do you retry the whole thing? Just the failed step? How do you know which step failed?
+- **You need to handle rate limits.** LLM APIs throttle you. Your retry logic becomes increasingly complex, scattered across multiple services.
+- **Long-running workflows need state.** Processing a 200-page financial report takes minutes. If your worker dies mid-processing, you lose all progress.
+- **You need visibility.** "Where is this document in the pipeline?" becomes an unanswerable question without custom tracking infrastructure.
+
+We hit all of these. Our pipeline had a ~3% failure rate that was "acceptable" until it wasn't — because 3% of thousands of daily documents meant dozens of silent failures that nobody caught until a client asked why their data was stale.
+
+## Why Temporal
+
+Temporal is a workflow orchestration engine that treats your code as durable execution. A workflow can run for seconds or days. If a worker crashes, the workflow picks up exactly where it left off. Every step is automatically tracked, retried, and observable.
+
+For AI pipelines specifically, this solves three critical problems:
+
+### 1. Durable Execution for Long-Running Processes
+
+A single document through our pipeline goes through 8-12 distinct steps. Some take milliseconds (metadata extraction), some take seconds (LLM calls), and some take minutes (OCR on large scanned documents).
+
+With Temporal, each step is an "activity" with its own retry policy, timeout, and heartbeat. If the LLM API times out on step 6, we retry just step 6 — not the entire pipeline. The workflow state is preserved automatically.
+
+```python
+@workflow.defn
+class DocumentProcessingWorkflow:
+    @workflow.run
+    async def run(self, document_id: str) -> ProcessingResult:
+        # Step 1: Classify document type
+        doc_type = await workflow.execute_activity(
+            classify_document,
+            document_id,
+            start_to_close_timeout=timedelta(seconds=30),
+            retry_policy=RetryPolicy(maximum_attempts=3),
+        )
+
+        # Step 2: Extract structured data
+        extracted = await workflow.execute_activity(
+            extract_structured_data,
+            args=[document_id, doc_type],
+            start_to_close_timeout=timedelta(minutes=5),
+            retry_policy=RetryPolicy(
+                maximum_attempts=5,
+                backoff_coefficient=2.0,
+            ),
+        )
+
+        # Step 3: Generate embeddings
+        embeddings = await workflow.execute_activity(
+            generate_embeddings,
+            args=[document_id, extracted],
+            start_to_close_timeout=timedelta(minutes=2),
+        )
+
+        # ...remaining steps
+        return ProcessingResult(
+            document_id=document_id,
+            status="completed",
+            extracted_data=extracted,
+        )
+```
+
+### 2. Built-in Rate Limiting and Backpressure
+
+LLM APIs have rate limits. When you're processing thousands of documents, you'll hit them constantly. With Temporal, we handle this through activity-level retry policies with exponential backoff. But more importantly, we can control concurrency at the workflow level:
+
+- Limit how many documents are processed simultaneously
+- Implement per-API-key rate limiting without custom infrastructure
+- Automatically queue work when we're at capacity
+
+No custom rate limiter. No Redis-based token buckets. The orchestration layer handles it.
+
+### 3. Complete Observability
+
+Every workflow execution is fully tracked. We can see:
+
+- Which step a document is currently on
+- How long each step took
+- Why a specific document failed (exact error, exact step)
+- Historical performance trends across all pipeline stages
+
+This replaced our custom tracking tables, status columns, and "last_processed_at" timestamps that were always slightly wrong.
+
+## Architecture After Temporal
+
+Our pipeline architecture simplified dramatically:
+
+**Before:** FastAPI → Redis Queue → Celery Worker → Redis Queue → Another Worker → Database → Cron Job → Status Tracker
+
+**After:** FastAPI → Temporal Workflow → Activities (each doing one thing well) → Database
+
+The workflow is the source of truth for pipeline state. Activities are pure functions that do one thing — call an LLM, extract a table, validate a result. They don't need to know about retries, timeouts, or ordering. Temporal handles all of that.
+
+## Patterns That Emerged
+
+### Fan-out/Fan-in for Multi-page Documents
+
+A 50-page report gets split into pages. Each page is processed in parallel (fan-out). Results are collected and merged (fan-in). If 3 of 50 pages fail, we retry just those 3.
+
+### Saga Pattern for Multi-Service Operations
+
+When processing involves multiple services (extraction service, embedding service, validation service), we use the saga pattern. If embedding generation fails after extraction succeeds, we can trigger compensation logic — mark the document as partially processed, alert the monitoring system, and schedule a retry for just the failed step.
+
+### Child Workflows for Composability
+
+Complex documents trigger sub-workflows. A financial report might contain: an income statement (child workflow), a balance sheet (child workflow), and a cash flow statement (child workflow). Each runs independently with its own retry logic and timeout.
+
+## Results
+
+After migrating to Temporal:
+
+- **Pipeline failure rate:** 3% → 0.1% (most failures now self-heal through retries)
+- **Mean time to detection:** Hours → Real-time (Temporal UI shows failures immediately)
+- **Mean time to recovery:** Manual intervention → Automatic (retry policies handle transient failures)
+- **Developer cognitive load:** Significantly reduced. New pipeline steps are "write the activity function, add it to the workflow." No queue management, no retry logic, no state tracking.
+
+## When NOT to Use Temporal
+
+Temporal adds operational complexity. You're running another service (the Temporal server) that needs to be maintained. For simple, short-lived tasks that don't need durability, it's overkill. Specifically:
+
+- **Simple request-response APIs** — just handle it in your endpoint
+- **Sub-second processing** — the Temporal overhead isn't worth it
+- **Fire-and-forget tasks** — if you don't care about completion guarantees, a simple queue is fine
+
+But for AI pipelines — where you have multi-step processing, external API dependencies, long-running workflows, and real consequences for silent failures — Temporal is the best infrastructure investment we've made.
+
+## Getting Started
+
+If you're considering Temporal for your AI pipeline:
+
+1. **Start with one workflow.** Pick your most problematic pipeline and migrate it first.
+2. **Design activities as pure functions.** They should be idempotent and stateless.
+3. **Set appropriate timeouts.** LLM calls can hang. Set start-to-close timeouts on every activity.
+4. **Use heartbeats for long activities.** If an activity takes minutes, heartbeat regularly so Temporal knows it's still alive.
+5. **Instrument everything.** Temporal gives you observability for free — use it.
+
+The shift from "hope nothing breaks" to "everything is automatically tracked, retried, and recoverable" is transformative for AI system reliability.
